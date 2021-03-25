@@ -50,7 +50,7 @@ export default {
     const d = this; //watch out for setinterval this scope
     setInterval(function () {
       d.elapsedTime += 0.001;
-    }, 10);
+    }, 60);
   },
 };
 </script>
@@ -66,5 +66,6 @@ svg {
 circle {
   // transition: stroke-dashoffset 0.35s;
   transform-origin: 50% 50%;
+  transform: rotate3d(0, 0, 1, -90deg);
 }
 </style>

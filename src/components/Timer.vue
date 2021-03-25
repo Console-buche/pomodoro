@@ -22,6 +22,9 @@ export default {
 };
 </script>
 <style lang="sass" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap')
+$family: 'Roboto', sans-serif
+$color: #d9e2ff
 $gradient: linear-gradient(to left, #333 50%, #eee 50%)
 
 .container
@@ -43,6 +46,21 @@ $gradient: linear-gradient(to left, #333 50%, #eee 50%)
     align-items: center
     justify-content: center
     position: relative
+
+    div
+      z-index: 1
+      font-family: $family
+      color: $color
+
+    .time_left
+      font-size: 5.2em
+      font-weight: 700
+
+    .pause_btn
+      font-size: 0.85em
+      letter-spacing: 0.75em
+      transform: translateY(1.5em)
+      text-transform: uppercase
 
     &:before
       content: ''

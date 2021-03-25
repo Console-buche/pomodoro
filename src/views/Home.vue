@@ -34,5 +34,5 @@ section
   padding: 5vh
 
   background: rgb(38,43,83)
-  background: radial-gradient(circle, #262b53 40%, #1e2140 58%)
+  background: radial-gradient(circle, #262b53 32%, #14162d 45%)
 </style>

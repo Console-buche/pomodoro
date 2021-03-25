@@ -4,6 +4,10 @@
 </template>
 
 <style lang="sass">
+body
+  margin: 0
+  background: #14162d
+
 #app
   font-family: Avenir, Helvetica, Arial, sans-serif
   -webkit-font-smoothing: antialiased
@@ -13,6 +17,7 @@
   display: flex
   flex-direction: column
   align-items: center
+  background: #14162d
 
 #nav
   padding: 30px
