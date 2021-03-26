@@ -4,7 +4,7 @@
       <font-awesome-icon @click="showParams" icon="cog" />
     </span>
   </div>
-  <ParamsModal v-if="paramsOn" />
+  <ParamsModal v-if="paramsOn" @close_modal="close" />
 </template>
 <script>
 import ParamsModal from "./ParamsModal.vue";
@@ -26,6 +26,9 @@ export default {
   methods: {
     showParams() {
       this.paramsOn = !this.paramsOn;
+    },
+    close() {
+      this.paramsOn = false;
     },
   },
 };
