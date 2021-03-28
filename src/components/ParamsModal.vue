@@ -1,8 +1,8 @@
 <template>
   <div class="modal">
     <div>
-      <SettingsHeader @close_modal="close" />
-      <TimeSelect />
+      <SettingsHeader />
+      <TimeSelect @settings-time="updateSettings" />
       <div class="options">
         <SettingsOptions
           v-for="option in options"
@@ -10,8 +10,9 @@
           :option_data="option.data"
           :option_type="option.type"
           :key="option"
+          @settings-font-color="updateSettings"
         />
-        <ApplyButton />
+        <ApplyButton :color="color" @save-settings="close" />
       </div>
     </div>
   </div>
@@ -23,18 +24,32 @@ import SettingsOptions from "./SettingsOptions.vue";
 import ApplyButton from "./ApplyButton.vue";
 export default {
   name: "ParamsModal",
-
+  props: {
+    color: {
+      type: Object,
+    },
+  },
   data() {
     return {
       options: [
         { name: "font", type: "font", data: ["roboto", "cursive", "fantasy"] },
         { name: "color", type: "color", data: ["pink", "lightblue", "purple"] },
       ],
+      settings: {
+        font: null,
+        color: null,
+        pomodoro: 25,
+        pause_courte: 5,
+        pause_longue: 15,
+      },
     };
   },
   methods: {
     close() {
-      this.$emit("close_modal");
+      this.$emit("close_modal", this.settings);
+    },
+    updateSettings(s) {
+      this.settings[s.type] = s.user_setting;
     },
   },
   components: {

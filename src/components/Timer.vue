@@ -1,8 +1,10 @@
 <template>
   <div class="container">
-    <CircleTimer />
+    <CircleTimer :color="color" @time-tick="$emit('time-tick')" />
     <div class="circle">
-      <div class="time_left">15:00</div>
+      <div class="time_left">
+        {{ timer.pomodoro.toFixed(2).replace(".", ":") }}
+      </div>
       <div class="pause_btn">pause</div>
     </div>
   </div>
@@ -11,12 +13,16 @@
 import CircleTimer from "./CircleTimer.vue";
 export default {
   name: "Timer",
+  emits: ["time-tick"],
   components: {
     CircleTimer,
   },
   props: {
     color: {
-      type: String,
+      type: Object,
+    },
+    timer: {
+      type: Object,
     },
   },
 };

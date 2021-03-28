@@ -4,18 +4,19 @@
       <font-awesome-icon @click="showParams" icon="cog" />
     </span>
   </div>
-  <ParamsModal v-if="paramsOn" @close_modal="close" />
+  <ParamsModal :color="color" v-if="paramsOn" @close_modal="close" />
 </template>
 <script>
 import ParamsModal from "./ParamsModal.vue";
 export default {
   name: "Settings",
+  emits: ["refresh"],
   components: {
     ParamsModal,
   },
   props: {
     color: {
-      type: String,
+      type: Object,
     },
   },
   data() {
@@ -27,8 +28,9 @@ export default {
     showParams() {
       this.paramsOn = !this.paramsOn;
     },
-    close() {
+    close(d) {
       this.paramsOn = false;
+      this.$emit("refresh", d);
     },
   },
 };

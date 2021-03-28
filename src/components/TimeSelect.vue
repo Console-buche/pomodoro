@@ -2,15 +2,52 @@
   <h3>Time (minutes)</h3>
   <div>
     <ul>
-      <li><span>pomodoro</span> <input type="number" value="25" /></li>
-      <li><span>pause courte</span> <input type="number" value="5" /></li>
-      <li><span>pause longue</span> <input type="number" value="15" /></li>
+      <li>
+        <span>pomodoro</span>
+        <input
+          @change="pickThis('pomodoro')"
+          v-model="pomodoro"
+          type="number"
+        />
+      </li>
+      <li>
+        <span>pause courte</span>
+        <input
+          @change="pickThis('pause_courte')"
+          v-model="pause_courte"
+          type="number"
+        />
+      </li>
+      <li>
+        <span>pause longue</span>
+        <input
+          @change="pickThis('pause_longue')"
+          v-model="pause_longue"
+          type="number"
+        />
+      </li>
     </ul>
   </div>
 </template>
 <script>
 export default {
   name: "TimeSelect",
+  emits: ["settings-time"],
+  data() {
+    return {
+      pomodoro: 25,
+      pause_courte: 5,
+      pause_longue: 15,
+    };
+  },
+  methods: {
+    pickThis(t) {
+      this.$emit("settings-time", {
+        type: t,
+        user_setting: parseInt(this[t], 10),
+      });
+    },
+  },
 };
 </script>
 <style lang="sass" scoped>

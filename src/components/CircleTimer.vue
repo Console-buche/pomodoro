@@ -1,13 +1,13 @@
 <template>
   <svg>
     <circle
-      :stroke="stroke"
+      :stroke="color.hex"
       :stroke-width="strokeWidth"
       :fill="fill"
       :stroke-dasharray="`${startCircumference} ${startCircumference}`"
       :style="`stroke-dashoffset:${
         currentCircumference + startCircumference + elapsed
-      }`"
+      }; transition: ${animSpeed}s stroke-dashoffset`"
       stroke-linecap="round"
       :r="normalizedRadius"
       :cx="geometry.cx"
@@ -18,9 +18,17 @@
 <script>
 export default {
   name: "CircleTimer",
+  emits: ["time-tick"],
+  props: {
+    color: {
+      type: Object,
+    },
+  },
   data() {
     return {
-      stroke: "#fa7070",
+      one_min_to_ms: 1 / 60,
+      time_selected_in_min: 1,
+      isRunning: true,
       dashOffset: "0",
       strokeWidth: 10,
       fill: "transparent",
@@ -29,7 +37,7 @@ export default {
         cx: 200,
         cy: 200,
       },
-      elapsedTime: 0,
+      elapsedTime: 0, //percent
     };
   },
   computed: {
@@ -45,12 +53,21 @@ export default {
     elapsed() {
       return this.startCircumference * this.elapsedTime;
     },
+    pomodoroTimer() {
+      return this.one_min_to_ms / this.time_selected_in_min;
+    },
+    animSpeed() {
+      return 1 - this.pomodoroTimer;
+    },
   },
   created() {
     const d = this; //watch out for setinterval this scope
     setInterval(function () {
-      d.elapsedTime += 0.001;
-    }, 60);
+      if (d.isRunning) {
+        d.elapsedTime += d.pomodoroTimer;
+        d.$emit("time-tick");
+      }
+    }, 1000);
   },
 };
 </script>

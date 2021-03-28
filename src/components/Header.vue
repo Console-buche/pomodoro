@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div :class="font">
     <ul>
-      <li class="active">pomodoro</li>
+      <li :class="['active', color.name]">pomodoro</li>
       <li>pause courte</li>
       <li>pause longue</li>
     </ul>
@@ -12,6 +12,9 @@ export default {
   name: "Header",
   props: {
     color: {
+      type: Object,
+    },
+    font: {
       type: String,
     },
   },
@@ -37,7 +40,6 @@ div
       white-space: nowrap
 
 .active
-  background-color: #fa7070
   color: #6b3a4c
   margin: 3px
   border-radius: 30px
