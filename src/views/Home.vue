@@ -2,9 +2,13 @@
   <section>
     <Header :color="global_style.color" :font="global_style.font" />
     <Timer
+      :currentTimer="currentTimer"
       :color="global_style.color"
       :timer="timer_settings"
+      :timerState="timerState"
+      :resetPlease="resetPlease"
       @time-tick="tick"
+      @toggle-timer="toggleTimer"
     />
     <Settings :color="global_style.color" @refresh="refreshApp" />
   </section>
@@ -33,9 +37,26 @@ export default {
         pause_courte: 5,
         pause_longue: 25,
       },
+      timer_backup: {
+        pomodoro: 15,
+        pause_courte: 5,
+        pause_longue: 25,
+      },
+      timerState: false,
+      resetPlease: "",
+      currentTimer: 15,
     };
   },
+
   methods: {
+    resetTimer() {
+      this.timerState = false;
+      this.currentTimer = this.timer_backup.pomodoro;
+      this.resetPlease += "again";
+    },
+    toggleTimer() {
+      this.timerState = !this.timerState;
+    },
     refreshApp(d) {
       console.log(d);
       this.global_style.color = d.color ? d.color : this.global_style.color;
@@ -48,9 +69,10 @@ export default {
         pause_longue: d.pause_longue,
       };
 
+      //safety type coercing, whatever to number
       let parseInt_timer_settings = Object.entries(timer_settings).reduce(
         function (accArray, nextTimer) {
-          accArray[nextTimer[0]] = nextTimer[1] + 10;
+          accArray[nextTimer[0]] = nextTimer[1];
           return accArray;
         },
         {}
@@ -58,25 +80,30 @@ export default {
 
       //store parseInt timer settings, just in case
       this.timer_settings = { ...parseInt_timer_settings };
+      this.timer_backup = { ...parseInt_timer_settings };
+
+      this.timer_settings = { ...this.timer_backup };
+      this.resetTimer();
     },
     tick() {
-      let decimals = Number(
-        Math.abs(
-          Math.floor(this.timer_settings[this.activeTimer]) -
-            this.timer_settings[this.activeTimer]
-        ).toFixed(2)
-      );
+      if (this.timerState) {
+        let decimals = Number(
+          Math.abs(
+            Math.floor(this.timer_settings[this.activeTimer]) -
+              this.timer_settings[this.activeTimer]
+          ).toFixed(2)
+        );
 
-      console.log(decimals);
-
-      if (decimals == 0) {
-        this.timer_settings[this.activeTimer] =
-          this.timer_settings[this.activeTimer] - 0.4;
-      } else {
-        this.timer_settings[this.activeTimer] =
-          decimals > 0.6
-            ? Math.floor(this.timer_settings[this.activeTimer]) + 0.6
-            : this.timer_settings[this.activeTimer] - 0.01;
+        //ugly yet readble. Prefered this to minmaxing or ternary checking, although lengthy
+        if (decimals == 0) {
+          this.timer_settings[this.activeTimer] =
+            this.timer_settings[this.activeTimer] - 0.41; //hardcoding ftw ?
+        } else {
+          this.timer_settings[this.activeTimer] =
+            decimals > 0.6
+              ? Math.floor(this.timer_settings[this.activeTimer]) + 0.6
+              : this.timer_settings[this.activeTimer] - 0.01;
+        }
       }
     },
   },

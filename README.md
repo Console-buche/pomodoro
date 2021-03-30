@@ -1,24 +1,7 @@
-# pomodoro
+Reste à faire : 
 
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- réparer le bouton close de la modal settings
+- activer les boutons pour lancer les pauses courtes & longues
+- gérer l'event lorsque le compteur arrive à zéro (pour l'instant passe en négatif) : message ? notif ? graphisme ?
+- nettoyage
+- responsive (?)

@@ -5,9 +5,7 @@
       :stroke-width="strokeWidth"
       :fill="fill"
       :stroke-dasharray="`${startCircumference} ${startCircumference}`"
-      :style="`stroke-dashoffset:${
-        currentCircumference + startCircumference + elapsed
-      }; transition: ${animSpeed}s stroke-dashoffset`"
+      :style="`stroke-dashoffset:${dashOffsett}; transition: ${animSpeed}s stroke-dashoffset`"
       stroke-linecap="round"
       :r="normalizedRadius"
       :cx="geometry.cx"
@@ -23,12 +21,19 @@ export default {
     color: {
       type: Object,
     },
+    timerstate: {
+      type: Boolean,
+    },
+    currentTimer: {
+      type: Number,
+    },
+    resetPlease: {
+      type: String,
+    },
   },
   data() {
     return {
       one_min_to_ms: 1 / 60,
-      time_selected_in_min: 1,
-      isRunning: true,
       dashOffset: "0",
       strokeWidth: 10,
       fill: "transparent",
@@ -40,6 +45,13 @@ export default {
       elapsedTime: 0, //percent
     };
   },
+  watch: {
+    resetPlease: function (o, n) {
+      if (n !== o) {
+        this.elapsedTime = 0;
+      }
+    },
+  },
   computed: {
     normalizedRadius() {
       return this.geometry.r - this.strokeWidth * 2;
@@ -50,11 +62,15 @@ export default {
     currentCircumference() {
       return this.normalizedRadius * 2 * Math.PI;
     },
+
     elapsed() {
       return this.startCircumference * this.elapsedTime;
     },
+    dashOffsett() {
+      return this.currentCircumference + this.startCircumference + this.elapsed;
+    },
     pomodoroTimer() {
-      return this.one_min_to_ms / this.time_selected_in_min;
+      return this.one_min_to_ms / this.currentTimer;
     },
     animSpeed() {
       return 1 - this.pomodoroTimer;
@@ -63,7 +79,7 @@ export default {
   created() {
     const d = this; //watch out for setinterval this scope
     setInterval(function () {
-      if (d.isRunning) {
+      if (d.timerstate) {
         d.elapsedTime += d.pomodoroTimer;
         d.$emit("time-tick");
       }

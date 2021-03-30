@@ -1,11 +1,17 @@
 <template>
   <div class="container">
-    <CircleTimer :color="color" @time-tick="$emit('time-tick')" />
+    <CircleTimer
+      :timerstate="timerState"
+      :currentTimer="currentTimer"
+      :color="color"
+      :resetPlease="resetPlease"
+      @time-tick="$emit('time-tick')"
+    />
     <div class="circle">
       <div class="time_left">
         {{ timer.pomodoro.toFixed(2).replace(".", ":") }}
       </div>
-      <div class="pause_btn">pause</div>
+      <div class="pause_btn" @click="toggleTimer">{{ timerBtnLabel }}</div>
     </div>
   </div>
 </template>
@@ -13,7 +19,7 @@
 import CircleTimer from "./CircleTimer.vue";
 export default {
   name: "Timer",
-  emits: ["time-tick"],
+  emits: ["time-tick", "toggle-timer"],
   components: {
     CircleTimer,
   },
@@ -23,6 +29,28 @@ export default {
     },
     timer: {
       type: Object,
+    },
+    currentTimer: {
+      type: Number,
+    },
+    timerState: {
+      type: Boolean,
+    },
+    resetPlease: {
+      type: String,
+    },
+  },
+  computed: {
+    timerBtnLabel() {
+      return this.timerState ? ">PAUSE<" : ">PLAY<";
+    },
+    theTimerState() {
+      return this.timerState ? false : true;
+    },
+  },
+  methods: {
+    toggleTimer() {
+      this.$emit("toggle-timer", this.theTimerState);
     },
   },
 };
@@ -67,6 +95,9 @@ $gradient: linear-gradient(to left, #333 50%, #eee 50%)
       letter-spacing: 0.75em
       transform: translateY(1.5em)
       text-transform: uppercase
+
+      &:hover
+        cursor: pointer
 
     &:before
       content: ''

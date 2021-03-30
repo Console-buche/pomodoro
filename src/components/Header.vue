@@ -1,9 +1,18 @@
 <template>
   <div :class="font">
     <ul>
-      <li :class="['active', color.name]">pomodoro</li>
-      <li>pause courte</li>
-      <li>pause longue</li>
+      <li
+        v-for="option in timerOptions"
+        :key="option.id"
+        @click.stop="pick"
+        :data-id="option.name"
+        :class="[
+          { active: activeTimer == option.name },
+          { [color.name]: activeTimer == option.name },
+        ]"
+      >
+        {{ option.name }}
+      </li>
     </ul>
   </div>
 </template>
@@ -16,6 +25,23 @@ export default {
     },
     font: {
       type: String,
+    },
+  },
+  data() {
+    return {
+      timerOptions: [
+        { name: "pomorodo", id: 1 },
+        { name: "pause courte", id: 2 },
+        { name: "pause longue", id: 3 },
+      ],
+      activeTimer: "pomodoro",
+    };
+  },
+  methods: {
+    pick(e) {
+      console.log(e);
+      let el = e.target.dataset.id;
+      this.activeTimer = el;
     },
   },
 };
@@ -38,9 +64,12 @@ div
       padding: 20px
       position: relative
       white-space: nowrap
+      border-radius: 30px
+      margin: 3px
+
+    &:hover
+      cursor: pointer
 
 .active
   color: #6b3a4c
-  margin: 3px
-  border-radius: 30px
 </style>
