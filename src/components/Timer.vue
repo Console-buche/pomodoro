@@ -9,7 +9,7 @@
     />
     <div class="circle">
       <div class="time_left">
-        {{ timer.pomodoro.toFixed(2).replace(".", ":") }}
+        {{ timer[activeTimer].toFixed(2).replace(".", ":") }}
       </div>
       <div class="pause_btn" @click="toggleTimer">{{ timerBtnLabel }}</div>
     </div>
@@ -33,6 +33,9 @@ export default {
     currentTimer: {
       type: Number,
     },
+    activeTimer: {
+      type: String,
+    },
     timerState: {
       type: Boolean,
     },
@@ -42,7 +45,7 @@ export default {
   },
   computed: {
     timerBtnLabel() {
-      return this.timerState ? ">PAUSE<" : ">PLAY<";
+      return this.timerState ? ">PAUSE<" : ">START<";
     },
     theTimerState() {
       return this.timerState ? false : true;

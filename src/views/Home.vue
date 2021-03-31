@@ -1,8 +1,13 @@
 <template>
   <section>
-    <Header :color="global_style.color" :font="global_style.font" />
+    <Header
+      :color="global_style.color"
+      :font="global_style.font"
+      @change-timer-mode="resetTimer"
+    />
     <Timer
       :currentTimer="currentTimer"
+      :activeTimer="activeTimer"
       :color="global_style.color"
       :timer="timer_settings"
       :timerState="timerState"
@@ -44,14 +49,21 @@ export default {
       },
       timerState: false,
       resetPlease: "",
-      currentTimer: 15,
     };
   },
-
+  computed: {
+    currentTimer: function () {
+      return this.timer_settings[this.activeTimer];
+    },
+  },
   methods: {
-    resetTimer() {
+    resetTimer(e = "pomodoro") {
+      let key = e.replace(" ", "_");
+      this.timer_settings[key] = this.timer_backup[key];
+
       this.timerState = false;
-      this.currentTimer = this.timer_backup.pomodoro;
+      this.activeTimer = key;
+
       this.resetPlease += "again";
     },
     toggleTimer() {
