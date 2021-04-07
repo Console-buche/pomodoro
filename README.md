@@ -1,4 +1,4 @@
-  <h3 align="center">Pomodoro timer / DEV EN COURS</h3>
+  <h3 align="center">Pomodoro timer</h3>
 
   <p align="center">
     Inspiré d'un challenge FrontEndMentor, petit outil de gestion de temps à la Pomodoro. Trois chronos configurables, quelques options de styles. Encore quelques petits réglages à faire (cf.todo ci-dessous)
@@ -8,11 +8,10 @@
   </p>
 </p>
 
-## TODO
-- Réparer le bouton d'annulation de la modale
-- Trad de 2 ou 3 mots oubliés
-- Tests & nettoyage
-<!-- A propos  -->
+## usage / dev mode
+
+npm install 
+npm run serve
 
 ## A propos
 
