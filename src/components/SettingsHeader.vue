@@ -9,7 +9,8 @@ export default {
   name: "SettingsHeader",
   methods: {
     close() {
-      this.$emit("close_modal");
+      console.log("close it");
+      this.$emit("cancel-modal");
     },
   },
 };

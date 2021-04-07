@@ -1,7 +1,7 @@
 <template>
   <div class="modal">
     <div>
-      <SettingsHeader />
+      <SettingsHeader @cancel-modal="cancel" />
       <TimeSelect @settings-time="updateSettings" />
       <div class="options">
         <SettingsOptions
@@ -50,6 +50,10 @@ export default {
     },
     updateSettings(s) {
       this.settings[s.type] = s.user_setting;
+    },
+    cancel() {
+      console.log("cancelling modal");
+      this.$emit("cancel_modal");
     },
   },
   components: {
